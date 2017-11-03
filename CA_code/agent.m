@@ -10,6 +10,8 @@ classdef agent < matlab.mixin.Copyable
       session_id = 1;
       bottles = [];
       forks = [];
+      robots = [];
+      ComPts = [];
       maxGlobalTime = 1000;
       maxMessages = 2000;
       messageReceived = 0;
@@ -108,6 +110,9 @@ classdef agent < matlab.mixin.Copyable
        end
        function fState = getFinalState(obj)
            fState = obj.path(end);
+       end
+       function addRobots(obj, robots)
+           obj.robots = robots;
        end
        function setSessions(obj, sessions)
            obj.sessions = sessions;

@@ -1,10 +1,12 @@
-function teams = generate_agents(T)
+function teams = generate_agents(T,ws)
 % create philosophers from team members
 % distribute forks and bottles
 nTeams = length(T);
 teams = [];
 for t = 1:nTeams
    teams = [teams; agent(t)];
+   teams(t).addRobots(T{t});
+   teams(t).ComPts = ws.C{t};
 end
 fork_counter = 1;
 bottle_counter = 1;

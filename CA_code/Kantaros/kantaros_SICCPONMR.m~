@@ -43,7 +43,7 @@ for t = 1:h
 %             meeting_flag(i) = 1;
             cp = find_closest_point(teams(i), pos, ws);
             if is_arrived(teams(i), cp, pos)
-                total = sum(v(teams(i).robots,end));
+                total = sum(v(teams(i).robots));
                 nr = length(teams(i).robots);
                 v(teams(i).robots, end) = total*ones(nr,1)/nr;
                 teams(i).finishEating();
@@ -59,16 +59,11 @@ for t = 1:h
         end     
     end
     plot_kantaros(ws, pos);
-    pause(0.03);
-    % more bookkeepin
-end
-
     figure(2)
     clf;
     hold on
-    axis([0 h 0 10])
-    mycolors = jet(5);
     for n = 1:5
-        plot(1:size(v,2), v(n,:), '-', ...
-            'MarkerFaceColor',mycolors(n,:), 'MarkerEdgeColor',mycolors(n,:))
-    end
+        plot(v)
+    pause(0.5);
+    % more bookkeepin
+end
