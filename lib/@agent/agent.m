@@ -15,6 +15,7 @@ classdef agent < matlab.mixin.Copyable
       curr_session = [];
       next_session = [];
       move_completed = true;
+      final_location_cleared = 0;
       % bookkeeping
       msgReceived = 0;
       msgSent = 0;
@@ -51,5 +52,9 @@ classdef agent < matlab.mixin.Copyable
        %% Collision Avoidance related
        Cycles = find_rainbow_cycles(obj, idx_next_state)
        Bottles = find_next_session(obj, idx_next_state)
+       move(obj);
+       try_moving(obj);
+       bool = is_final_location_included(obj);
+       sendFinalClearedSignal(obj);
    end
 end

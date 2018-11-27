@@ -25,14 +25,14 @@ plot_ws(ws, initial_locations, final_locations, Paths)
     frame = getframe(1);
     im = frame2im(frame);
     [imind,cm] = rgb2ind(im,256);
-    outfile = 'example_cross.gif';
+    outfile = 'example_koenig.gif';
     imwrite(imind,cm,outfile,'gif','DelayTime',0,'loopcount',inf);
 % simulate
 Agents = cell(1,N);
 for i = 1:N
     Agents{i} = agent(i,Paths{i});
     Agents{i}.Paths = Paths;
-    Agents{i}.prob_succ =1; parameters(i, 5);
+    Agents{i}.prob_succ = parameters(i, 5);
 end
 
 for i= 1:length(Paths)
@@ -50,7 +50,7 @@ while sum(runs_completed) < N
     for m = 1:N
         % agents try to move forward
         n = m;
-        random_order(m);
+        n = random_order(m);
         if ~runs_completed(n)
             Agents{n}.move();
             time_elapsed(n) = time_elapsed(n) + 1;
@@ -80,6 +80,9 @@ while sum(runs_completed) < N
     imwrite(imind,cm,outfile,'gif','DelayTime',0.3,'writemode','append');
 
     if length(unique(positions)) < N
+        [bincount, bin] = histc(positions, unique(positions));
+        multiple = find(bincount > 1);
+        colliding_agents = find(ismember(bin, multiple));
         disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
    end
 end

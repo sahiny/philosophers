@@ -2,7 +2,10 @@ function move(obj)
 obj.move_completed = false;
 % figure out what bottles are needed
 obj.next_session = find_next_session(obj, obj.curr_pos_idx+1);
-
+if obj.is_final_location_included() && ...
+        sum(obj.final_location_cleared) < length(obj.getCellBottles(obj.path(end)))
+    return
+end
 % if the next state is contested, request required bottles
 if ~isempty(obj.next_session) 
     % if the next state is contested
@@ -15,7 +18,7 @@ if ~isempty(obj.next_session)
     end
 end
 
-obj.try_moving();
+try_moving(obj);
 
 
     

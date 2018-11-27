@@ -16,7 +16,7 @@ end
 % move if the move is allowed
 if is_move_allowed && ~obj.move_completed && rand(1) <= obj.prob_succ
     obj.curr_pos_idx = obj.curr_pos_idx + 1;
-    
+    obj.sendFinalClearedSignal();
 %     %%%%%% VIS PURPOSES %%%%%%
 %     positions(obj.id) = obj.path(obj.curr_pos_idx);
 %     plot_ws(ws, positions, final_locations, []);drawnow;
