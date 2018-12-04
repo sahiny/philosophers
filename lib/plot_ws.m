@@ -49,26 +49,28 @@ end
     fx = fx - 1.5;
     
     mycolors = jet(numAgents);
+    
+
+    if isempty(paths)
+        1;
+    else
+        % draw paths
+        for n = 1:numAgents
+            % convert to x-y
+            [py, px] = ind2sub([numRows, numCols], paths{n});
+            py = numRows - py + n/(numAgents+1) - 0.5 ;
+            px = px - n/(numAgents+1) - 0.5;
+            px(1) = px(1) + n/(numAgents+1) - 0.5;
+            px(end) = px(end) + n/(numAgents+1) - 0.5;
+            py(1) = py(1) -  n/(numAgents+1) + 0.5;
+            py(end) = py(end) -  n/(numAgents+1) + 0.5;
+            plot(px, py, 'Color', mycolors(n,:), 'LineWidth',2);
+        end
+    end
     for n = 1:numAgents
         rectangle('Position',[ix(n)+.1 iy(n)+.1 .8 .8], 'FaceColor', mycolors(n,:), 'Curvature', [1 1]);
+        text(ix(n)+0.5, iy(n)+0.5, num2str(n), 'FontSize',8, 'Color', ones(1,3)-mycolors(n,:), 'HorizontalAlignment', 'center')
     end
     for n = 1:numAgents
         rectangle('Position',[fx(n)+.1 fy(n)+.1 .8 .8], 'EdgeColor', mycolors(n,:), 'Curvature', [1 1], 'LineWidth',2, 'LineStyle', '-');
     end
-
-    if isempty(paths)
-        return
-    end
-% draw paths
-for n = 1:numAgents
-    % convert to x-y
-    [py, px] = ind2sub([numRows, numCols], paths{n});
-    py = numRows - py + n/(numAgents+1) - 0.5 ;
-    px = px - n/(numAgents+1) - 0.5;
-    px(1) = px(1) + n/(numAgents+1) - 0.5;
-    px(end) = px(end) + n/(numAgents+1) - 0.5;
-    py(1) = py(1) -  n/(numAgents+1) + 0.5;
-    py(end) = py(end) -  n/(numAgents+1) + 0.5;
-    plot(px, py, 'Color', mycolors(n,:), 'LineWidth',2);
-end
-    
