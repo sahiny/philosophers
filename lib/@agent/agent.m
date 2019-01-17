@@ -10,6 +10,9 @@ classdef agent < matlab.mixin.Copyable
       % drinking related
       drinkingState = 'tranquil';
       bottles = [];
+      bottle_cells = [];
+      bottle_sharedWith = [];
+      %bottle_idx = [];
       s_num = 0; % session number
       max_rec = 0;
       curr_session = [];
