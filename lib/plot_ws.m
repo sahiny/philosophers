@@ -21,15 +21,13 @@ obstacles = ws.obstacles;
 
 % draw grid
 figure(1);clf;hold on;
-set(gca,'ytick',[]);
-axis([-1 numCols+1 -1 numRows+1]);
-axis equal
 for i = 1:numRows
     rectangle('Position',[-0.5 i-1.5 numCols 1]);
-    text(-2, numRows - i, num2str(i-1));
+    text(numCols, numRows - i, num2str(i-1));
 end
 for i = 1:numCols
     rectangle('Position',[i-1.5 -0.5 1 numRows]);
+    text(i-1, numRows, num2str(i-1), 'Rotation', 90);
 end
 
 % draw obstacles
@@ -74,3 +72,11 @@ end
     for n = 1:numAgents
         rectangle('Position',[fx(n)+.1 fy(n)+.1 .8 .8], 'EdgeColor', mycolors(n,:), 'Curvature', [1 1], 'LineWidth',2, 'LineStyle', '-');
     end
+
+axis([-1 numCols+3 -1 numRows+3]);
+axis equal
+set(gca,'xtick',[]);
+set(gca,'ytick',[]);
+ax = gca;
+ax.Color = [1 1 1];
+drawnow;

@@ -1,4 +1,5 @@
 clear;clc;close all;
+plot_stuff = 0;
 % koenig example
 koenig_example_random1_parameters;
 % individual paths
@@ -16,17 +17,16 @@ end
 % visualize
 ws = create_workspace(numRows, numCols, obstacles);
 plot_ws(ws, initial_locations, final_locations, Paths)
-%     set(gca,'xtick',[]);
-    set(gca,'ytick',[]);
-    ax = gca;
-    ax.Color = [1 1 1];
-%     pause(0.01)
-    drawnow;
+pause(0.01)
+% if plot_stuff is set, create a gif
+if plot_stuff
     frame = getframe(1);
     im = frame2im(frame);
     [imind,cm] = rgb2ind(im,256);
     outfile = 'example_koenig.gif';
     imwrite(imind,cm,outfile,'gif','DelayTime',0,'loopcount',inf);
+end
+
 % simulate
 Agents = cell(1,N);
 for i = 1:N
@@ -65,20 +65,16 @@ while sum(runs_completed) < N
     for n = 1:N
         positions(n) = Agents{n}.path(Agents{n}.curr_pos_idx);
     end
-%     plot_ws(ws, positions, final_locations, []);
-%     drawnow;%pause(0.01);
-    plot_ws(ws, positions, final_locations, []);
-%     set(gca,'xtick',[]);
-    set(gca,'ytick',[]);
-    ax = gca;
-    ax.Color = [1 1 1];
-%     pause(0.01)
-    drawnow;
-    frame = getframe(1);
-    im = frame2im(frame);
-    [imind,cm] = rgb2ind(im,256);
-    imwrite(imind,cm,outfile,'gif','DelayTime',0.3,'writemode','append');
 
+    plot_ws(ws, positions, final_locations, []);
+    pause(0.01)
+
+    if plot_stuff % if plot_stuff is set, append to gif
+        frame = getframe(1);
+        im = frame2im(frame);
+        [imind,cm] = rgb2ind(im,256);
+        imwrite(imind,cm,outfile,'gif','DelayTime',0.3,'writemode','append');
+    end
     if length(unique(positions)) < N
         [bincount, bin] = histc(positions, unique(positions));
         multiple = find(bincount > 1);
