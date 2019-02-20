@@ -1,43 +1,53 @@
-clear;clc;close all;
-plot_stuff = 0;
-% koenig example
-koenig_example_random1_parameters;
-% individual paths
-Koenig_paths_random1;
-% Number of robots
-N = length(Paths);
-% Unique Initial and Final Locations
-initial_locations = zeros(1,N);
-final_locations = zeros(1,N);
-for i = 1:N
-    initial_locations(i) = Paths{i}(1);
-    final_locations(i) = Paths{i}(end);
-end
+% clear;clc;close all;
+% plot_stuff = 0;
+% % koenig example
+% koenig_example_random1_parameters;
+% % individual paths
+% Koenig_paths_random1;
+% % Number of robots
+% N = length(Paths);
+% % Unique Initial and Final Locations
+% initial_locations = zeros(1,N);
+% final_locations = zeros(1,N);
+% for i = 1:N
+%     initial_locations(i) = Paths{i}(1);
+%     final_locations(i) = Paths{i}(end);
+% end
+% 
+% % visualize
+% ws = create_workspace(numRows, numCols, obstacles);
+% plot_ws(ws, initial_locations, final_locations, Paths)
+% % % pause(0.01)
+% % % if plot_stuff is set, create a gif
+% % if plot_stuff
+% %     frame = getframe(1);
+% %     im = frame2im(frame);
+% %     [imind,cm] = rgb2ind(im,256);
+% %     outfile = 'example_koenig.gif';
+% %     imwrite(imind,cm,outfile,'gif','DelayTime',0,'loopcount',inf);
+% % end
+% % 
+% % % simulate
+% % Agents = cell(1,N);
+% % for i = 1:N
+% %     Agents{i} = agent(i,unique(Paths{i}, 'stable'));
+% %     Agents{i}.Paths = Paths;
+% %     Agents{i}.prob_succ = parameters(i, 5);
+% % end
+% % 
+% % for i= 1:length(Paths)
+% %     Agents{i}.createBottlesSharedWith(Agents);
+% % end
+% % for i= 1:length(Paths)
+% %     Agents{i}.findDrinkingSessions();
+% % end
+% % plot_ws(ws, initial_locations, final_locations, Paths)
+% % set_initial_sessions(Agents)
 
-% visualize
-ws = create_workspace(numRows, numCols, obstacles);
-plot_ws(ws, initial_locations, final_locations, Paths)
-pause(0.01)
-% if plot_stuff is set, create a gif
-if plot_stuff
-    frame = getframe(1);
-    im = frame2im(frame);
-    [imind,cm] = rgb2ind(im,256);
-    outfile = 'example_koenig.gif';
-    imwrite(imind,cm,outfile,'gif','DelayTime',0,'loopcount',inf);
-end
+load('Koenig2')
+% koenig_example_random1_parameters;
 
-% simulate
-Agents = cell(1,N);
-for i = 1:N
-    Agents{i} = agent(i,Paths{i});
-    Agents{i}.Paths = Paths;
-    Agents{i}.prob_succ = parameters(i, 5);
-end
-
-for i= 1:length(Paths)
-    Agents{i}.createBottlesSharedWith(Agents);
-end
+% rng(0)
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
 time = 1;
@@ -49,7 +59,7 @@ while sum(runs_completed) < N
     random_order = randperm(N);
     for m = 1:N
         % agents try to move forward
-        n = m;
+%         n = m;
         n = random_order(m);
         if ~runs_completed(n)
             Agents{n}.move();
@@ -65,9 +75,11 @@ while sum(runs_completed) < N
     for n = 1:N
         positions(n) = Agents{n}.path(Agents{n}.curr_pos_idx);
     end
-
-    plot_ws(ws, positions, final_locations, []);
-    pause(0.01)
+    if positions(7) == 558
+        1;
+    end
+%     plot_ws(ws, positions, final_locations, []);
+%     pause(0.01)
 
     if plot_stuff % if plot_stuff is set, append to gif
         frame = getframe(1);
@@ -80,6 +92,7 @@ while sum(runs_completed) < N
         multiple = find(bincount > 1);
         colliding_agents = find(ismember(bin, multiple));
         disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
+        assert(1==0)
    end
 end
 

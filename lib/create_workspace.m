@@ -46,7 +46,7 @@ r2n = zeros(numRows*numCols - length(obstacles),1);
 n2r = zeros(numRows*numCols, 1);
 j=numRows*numCols - length(obstacles);
 for i = 1:(numRows*numCols)
-    isObs = ~isempty(find(obstacles==numRows*numCols+1-i));
+    isObs = ~isempty(find(obstacles==numRows*numCols+1-i,1));
     if isObs
         adjr(numRows*numCols+1-i,:) = [];
         adjr(:,numRows*numCols+1-i) = [];

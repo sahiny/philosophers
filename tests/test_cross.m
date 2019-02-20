@@ -48,6 +48,7 @@ end
 
 for i= 1:length(Paths)
     Agents{i}.createBottlesSharedWith(Agents);
+    Agents{i}.findDrinkingSessions();
 end
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
@@ -60,7 +61,8 @@ while sum(runs_completed) < N
     random_order = randperm(N);
     for m = 1:N
         % agents try to move forward
-        n = random_order(m);
+        %n = random_order(m);
+        n=m;
         if ~runs_completed(n)
             Agents{n}.move();
             time_elapsed(n) = time_elapsed(n) + 1;

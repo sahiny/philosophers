@@ -8,11 +8,11 @@ function becomeThirsty(obj, bottles)
    end
    obj.drinkingState = 'thirsty';
    obj.s_num = obj.max_rec + 1;
-   for i = 1:length(bottles)
-       b = obj.getBottle(bottles(i).id_cell, bottles(i).sharedWith.id);
+   for i = bottles
+       b = obj.bottles(i);
        b.need = true;
    end
-   for i = 1:length(obj.bottles)
+   for i = bottles
        b = obj.bottles(i);
        if b.need && ~b.hold && b.req
            obj.requestBottle(b);

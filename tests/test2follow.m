@@ -4,15 +4,15 @@ ttotal = tic;
 %% User Defined Parameters
 % Workspace size
 numRows = 3;
-numCols = 15;
+numCols = 8;
 % individual paths
-Paths = {[7 8:3:38 37]};
-Paths{end+1} = fliplr([5 8:3:38 41]);
-Paths{end+1} = [9 8:3:38 39];
+Paths = {[7 8 11 14 17 16]};
+% Paths{end+1} = fliplr([5:3:20]);
+Paths{end+1} = [9 8:3:17 18];
 % Number of robots
 N = length(Paths);
 % Obstacles
-obstacles = [10:3:34 12:3:36];
+obstacles = [10 13 12 15];
 % Unique Initial and Final Locations
 initial_locations = zeros(1,N);
 final_locations = zeros(1,N);
@@ -34,6 +34,9 @@ end
 
 for i= 1:length(Paths)
     Agents{i}.createBottlesSharedWith(Agents);
+end
+for i= 1:length(Paths)
+    Agents{i}.findDrinkingSessions();
 end
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);

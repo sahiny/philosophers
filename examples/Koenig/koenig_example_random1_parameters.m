@@ -46,7 +46,7 @@ parameters = [...
 
 initial_locations = parameters* [1; numRows; 0; 0; 0] + 1;
 final_locations = parameters * [0; 0; 1; numRows; 0] +1;
-prob_succ = parameters * [zeros(4,1); 1];
+prob_succ = 1-parameters * [zeros(4,1); 1];
 
 % Create workspace, agents, paths, etc
 % Obstacles

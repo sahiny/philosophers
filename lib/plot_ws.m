@@ -20,7 +20,7 @@ numCols = ws.numCols;
 obstacles = ws.obstacles;
 
 % draw grid
-figure(1);clf;hold on;
+figure(2);clf;hold on;
 for i = 1:numRows
     rectangle('Position',[-0.5 i-1.5 numCols 1]);
     text(numCols, numRows - i, num2str(i-1));
@@ -30,6 +30,11 @@ for i = 1:numCols
     text(i-1, numRows, num2str(i-1), 'Rotation', 90);
 end
 
+% for i = 1:numCols
+% for j = 1:numRows
+%     text(i-1.4, numRows-j-0.4, num2str((i-1)*numRows + j), 'FontSize', 3, 'HorizontalAlignment', 'center' );
+% end
+% end
 % draw obstacles
     % convert to x-y
     [oy,ox] = ind2sub([numRows, numCols], obstacles);
@@ -46,7 +51,15 @@ end
     fy = numRows - fy - 0.5;
     fx = fx - 1.5;
     
-    mycolors = jet(numAgents);
+    jet_colors = jet(numAgents);
+    mycolors = zeros(numAgents,3);
+    for c = 1:numAgents
+        if mod(c,2) == 1
+            mycolors(c,:) = jet_colors(ceil(c/2),:);
+        else
+            mycolors(c,:) = jet_colors(end-floor(c/2),:);
+        end
+    end
     
 
     if isempty(paths)

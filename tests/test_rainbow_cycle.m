@@ -41,6 +41,7 @@ end
 
 for i= 1:length(Paths)
     Agents{i}.createBottlesSharedWith(Agents);
+    Agents{i}.findDrinkingSessions();
 end
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
@@ -58,4 +59,19 @@ for i = move_order
    if length(unique(positions)) < N
         disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
    end
+end
+
+for t = 1:50
+for i = 1:length(Agents)
+   Agents{i}.move();
+    for n = 1:N
+        positions(n) = Agents{n}.path(Agents{n}.curr_pos_idx);
+    end
+    plot_ws(ws, positions, final_locations, []);
+    drawnow;%pause(0.01);
+
+   if length(unique(positions)) < N
+        disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
+   end
+end
 end

@@ -3,18 +3,19 @@ classdef agent < matlab.mixin.Copyable
       
       id % unique id for each agent
       path = []; % path that it needs to follow
+      is_shared = []; % bool vector showing if the state in the path is shared
       curr_pos_idx = 1; % current pos given by agent.path(curr_pos_idx)
       time = 1; % global time
-      Paths = {};
-      prob_succ = 1;
+      Paths = {}; % paths of all agents
+      prob_succ = 1; % success probability
       % drinking related
       drinkingState = 'tranquil';
-      bottles = [];
-      bottle_cells = [];
-      bottle_sharedWith = [];
-      %bottle_idx = [];
+      bottles = []; % inventory
+      bottle_cells = []; % used for finding bottles
+      bottle_sharedWith = []; % used for finding bottles
+      sessions = {}; % sessions required for each state
       s_num = 0; % session number
-      max_rec = 0;
+      max_rec = 0; % max session number received
       curr_session = [];
       next_session = [];
       move_completed = true;
@@ -33,7 +34,7 @@ classdef agent < matlab.mixin.Copyable
            end
        end
        Conflicts = findConflicts(obj, Agents);
-       
+       id_cell = pos(obj);
        %% BOTTLE RELATED
        createBottle(obj, id_cell, sharedWith);
        createBottlesSharedWith(obj, agent2);
@@ -51,10 +52,11 @@ classdef agent < matlab.mixin.Copyable
        receiveRequest(obj, id_cell, s_num, id_sender);
        receiveBottle(obj, b);
        tryDrinking(obj);
-       
+       becomeInsatiable(obj, bottles);
        %% Collision Avoidance related
-       Cycles = find_rainbow_cycles(obj, idx_next_state)
-       Bottles = find_next_session(obj, idx_next_state)
+       Cycles = find_rainbow_cycles(obj, idx_next_state);
+       Bottles = find_next_session(obj, idx_next_state);
+       findDrinkingSessions(obj, Agents);
        move(obj);
        try_moving(obj);
        bool = is_final_location_included(obj);

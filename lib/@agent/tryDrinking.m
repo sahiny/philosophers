@@ -1,5 +1,6 @@
 function tryDrinking(obj)
-   if ~strcmp(obj.drinkingState, 'thirsty')
+   if ~(strcmp(obj.drinkingState, 'thirsty') ||...
+           strcmp(obj.drinkingState, 'insatiable') )
        return;
    end
    for b = obj.bottles

@@ -13,17 +13,4 @@ function Bottles = find_next_session(obj, idx_next_state)
 % Outputs:
 %   Bootles          - bottle array that must claimed before moving onto next_state
 %
-
-Cycles = obj.find_rainbow_cycles(idx_next_state);
-% after finding all associated (cell,agent) pairs, get all the associated
-% bottles
-bottles_4_next_state = obj.getCellBottles(obj.path(idx_next_state));
-bottles_4_cycles = [];
-for c = 1:length(Cycles)
-    for i = 2:length(Cycles(c).id_cells)
-        this_bottle = obj.getBottle(Cycles(c).id_cells(i), Cycles(c).id_agents(i));
-        bottles_4_cycles = [bottles_4_cycles this_bottle];
-    end
-end
-
-Bottles = [bottles_4_next_state, bottles_4_cycles];
+Bottles = obj.sessions{idx_next_state};
