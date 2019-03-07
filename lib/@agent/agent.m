@@ -54,7 +54,7 @@ classdef agent < matlab.mixin.Copyable
        tryDrinking(obj);
        becomeInsatiable(obj, bottles);
        %% Collision Avoidance related
-       Cycles = find_rainbow_cycles(obj, idx_next_state);
+       Cycles = find_rainbow_cycles_helper(obj, idx_next_state);
        Bottles = find_next_session(obj, idx_next_state);
        findDrinkingSessions(obj, Agents);
        move(obj);

@@ -9,17 +9,14 @@ end
 I = [];
 J = [];
 V = [];
-is_shared = [];
+is_shared = find_shared_status(Paths);
 
 for p = 1:length(Paths)
     for l = 2:length(Paths{p})
-        I = [I Paths{p}(l-1)];
-        J = [J Paths{p}(l)];
-        V = [V p];
-        v = V(I==Paths{p}(l-1));
-        if unique(v) > 1
-            is_shared = [is_shared true];
-            is_shared(I==Paths{p}(l-1)) = true;
+        if is_shared(Paths{p}(l-1)) && is_shared(Paths{p}(l))
+            I = [I Paths{p}(l-1)];
+            J = [J Paths{p}(l)];
+            V = [V p];
         end
     end
 end 

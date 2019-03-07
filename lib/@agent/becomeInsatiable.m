@@ -24,6 +24,9 @@ function becomeInsatiable(obj, bottles)
        bottles_not_needed = setdiff(obj.sessions{obj.curr_pos_idx - 1}, obj.sessions{obj.curr_pos_idx});
        for i = 1:length(bottles_not_needed)
            b = obj.bottles(bottles_not_needed(i));
+           if b.id_cell == 557 && obj.id ==7
+               1;
+           end
            b.need = false;
            if b.hold && b.req
                b.hold = false;

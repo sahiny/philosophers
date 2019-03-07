@@ -3,9 +3,9 @@ function colors = get_edge_colors(Paths, walk, c1)
 % color
 
 colors = cell(length(walk)-1,1);
-colors{1} = c1;
+% colors{1} = c1;
 
-for i = 2:length(walk)-1
+for i = 1:length(walk)-1
     wi = walk(i);
     wp = walk(i+1);
 

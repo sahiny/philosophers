@@ -13,5 +13,5 @@ for a = 1:length(Agents)
     end
 end
 if sum(obj.is_shared) == length(obj.path)
-    disp('Conflict, no free states')
+    disp(['Conflict, no free states for Agent',num2str(obj.id)])
 end

@@ -18,7 +18,8 @@ function Bottles = find_session(obj, idx_next_state)
 if obj.id == 9 && idx_next_state == 16
     1;
 end
-bottles_4_cycles = find_cycles(obj,idx_next_state);
+% bottles_4_cycles = find_stuttered_rainbow_cycles(obj,idx_next_state);
+bottles_4_cycles = find_stuttered_rainbows(obj, idx_next_state);
 % after finding all associated (cell,agent) pairs, get all the associated
 % bottles
 bottles_4_next_state = find(obj.bottle_cells == obj.path(idx_next_state));

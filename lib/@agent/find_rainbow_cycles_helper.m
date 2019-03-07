@@ -1,4 +1,4 @@
-function Cycles = find_rainbow_cycles(obj, idx_next_state)
+function Cycles = find_rainbow_cycles_helper(obj, idx_next_state)
 % finds the next session of bottles that are required to move to next_state
 % searches for simple rainbow cycles that is rooted at next_state and
 % starts with the color of corresponding agent
@@ -46,7 +46,7 @@ while ~isempty(open_list)
                 [node2explore.ancestor_cells node2explore.id_cell],...
                 num_colors);
             % check if it creates a non-simple cycle
-            if ~isempty(find(child_c.ancestor_cells == child_c.id_cell)) 
+            if ~isempty(find(child_c.ancestor_cells == child_c.id_cell,1)) 
             % cycle detected
                 if child_c.id_cell == root.id_cell
                     this_cycle = struct();
@@ -67,7 +67,7 @@ end
 % if a cycle is found, search for new cycles starting from the nextnext state
 if ~isempty(Cycles) && idx_next_state < length(Paths{obj.id})
 %     for c = 1:length(Cycles)
-        Cycles2 = obj.find_rainbow_cycles(idx_next_state +1);
+        Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1);
         Cycles = [Cycles, Cycles2];
 %     end
 else

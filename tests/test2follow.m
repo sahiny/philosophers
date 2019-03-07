@@ -7,8 +7,8 @@ numRows = 3;
 numCols = 8;
 % individual paths
 Paths = {[7 8 11 14 17 16]};
-% Paths{end+1} = fliplr([5:3:20]);
-Paths{end+1} = [9 8:3:17 18];
+Paths{end+1} = fliplr([5:3:20]);
+% Paths{end+1} = [9 8:3:17 18];
 % Number of robots
 N = length(Paths);
 % Obstacles

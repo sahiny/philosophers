@@ -14,6 +14,8 @@ function plot_ws(ws, current_locations, final_locations, paths)
 % paths: cell array of vectors with the indices of cells connecting cur_loc to fin_loc
 %        (optional: can be left as [] if paths not to be drawn)
 
+display_states = 0;
+
 numAgents = length(current_locations);
 numRows = ws.numRows;
 numCols = ws.numCols;
@@ -30,11 +32,13 @@ for i = 1:numCols
     text(i-1, numRows, num2str(i-1), 'Rotation', 90);
 end
 
-% for i = 1:numCols
-% for j = 1:numRows
-%     text(i-1.4, numRows-j-0.4, num2str((i-1)*numRows + j), 'FontSize', 3, 'HorizontalAlignment', 'center' );
-% end
-% end
+if display_states
+    for i = 1:numCols
+        for j = 1:numRows
+            text(i-1.4, numRows-j-0.4, num2str((i-1)*numRows + j), 'FontSize', 5, 'HorizontalAlignment', 'center' );
+        end
+    end
+end
 % draw obstacles
     % convert to x-y
     [oy,ox] = ind2sub([numRows, numCols], obstacles);
