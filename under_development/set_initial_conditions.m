@@ -11,11 +11,17 @@ for a = 1:length(Agents)
                 disp(['Conflict between Agent', num2str(a), ' and Agent', num2str(a2.id)]);
             end
         end
-        Agents{a}.becomeThirsty(initial_session);
+        %%%%%%%%%%% new idea %%%%%%%%%
+        initial_session = find(Agents{a}.bottle_cells == Agents{a}.path(1));
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        Agents{a}.becomeThirsty(initial_session); %#ok<FNDSB>
         if strcmp(Agents{a}.drinkingState, 'drinking')
             if ~isempty(Agents{a}.sessions{2})
                 Agents{a}.becomeInsatiable(Agents{a}.sessions{2});
             end
+        else
+            disp(['!!!!!!! Initial Condition Conflict (Agent', num2str(a),')']);
+            assert(1==0);
         end
     end
 end

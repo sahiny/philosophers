@@ -24,7 +24,9 @@ end
 
 for c = 1:length(Cycles)
     my_cycle = Cycles(c);
+    cycle_color = my_cycle.id_agents;
     for i = 1:length(my_cycle.id_cells)
+        for j =
         b = obj.getBottleId(my_cycle.id_cells(i), my_cycle.id_agents(i));
         Bottles = [Bottles, b];
     end

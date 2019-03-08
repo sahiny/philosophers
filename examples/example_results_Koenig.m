@@ -122,6 +122,10 @@ while sum(runs_completed) < N
         multiple = find(bincount > 1);
         colliding_agents = find(ismember(bin, multiple));
         disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
+        str_crash = ['Crashing_seed_random', num2str(random_number)];
+        str_crash = [str_crash,'_A', num2str(colliding_agents(1)),'_A', num2str(colliding_agents(2))];
+        str_crash = [str_crash,'_t', num2str(max(time_elapsed))];
+        save(str_crash, 'this_seed');
         assert(1==0)
     end
    

@@ -1,6 +1,6 @@
 clear all;clc;
 cycle_method = 'R';
-for random_number = 2%[1 3 4 5 6 7 8 9 10]
+for random_number = [1 3 4 5 6 7 8 9 10]
 %koenig example
 eval(['Koenig_random_', num2str(random_number)]);
 
@@ -19,7 +19,7 @@ end
 for i= 1:length(Paths)
     Agents{i}.findDrinkingSessions(cycle_method);
 end
-set_initial_sessions(Agents, cycle_method);
+set_initial_conditions(Agents);
 
 mystr = ['Koenig_rand', num2str(random_number), '_', cycle_method];
 clear i n numCols numRows obstacles random_number x y

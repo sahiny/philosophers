@@ -3,12 +3,12 @@ function receiveRequest(obj, id_cell, s_num, id_sender)
    b = obj.getBottle(id_cell, id_sender);
    b.req = true;
    obj.max_rec = max(obj.max_rec, s_num);  
-   %%%% DEBUG %%%
+   %%%% DEBUG %%%%%%%%%%
    a2 = b.sharedWith;
-   if obj.id ==7 && a2.id == 25
+   if obj.id == 2 && a2.id == 12
        1;
    end
-   
+   %%%%%%%%%%%%%%%%
    if ~b.need
        b.hold = false;
        a2 = b.sharedWith;
