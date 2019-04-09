@@ -14,9 +14,9 @@ function plot_ws(ws, current_locations, final_locations, paths)
 % paths: cell array of vectors with the indices of cells connecting cur_loc to fin_loc
 %        (optional: can be left as [] if paths not to be drawn)
 
-display_states = 0;
+display_states = 1;
 
-numAgents = length(current_locations);
+numAgents = max([length(current_locations), length(final_locations), length(paths)]);
 numRows = ws.numRows;
 numCols = ws.numCols;
 obstacles = ws.obstacles;
@@ -70,8 +70,11 @@ end
         1;
     else
         % draw paths
-        for n = 1:numAgents
+        for n = 1:length(paths)
             % convert to x-y
+            if isempty(paths{n})
+                continue
+            end
             [py, px] = ind2sub([numRows, numCols], paths{n});
             py = numRows - py + n/(numAgents+1) - 0.5 ;
             px = px - n/(numAgents+1) - 0.5;

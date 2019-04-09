@@ -2,6 +2,7 @@ clear;clc;close all;
 % Simple example showing agents can follow each other
 ttotal = tic;
 %% User Defined Parameters
+cycle_method = 'R';
 % Workspace size
 numRows = 7;
 numCols = 8;
@@ -35,21 +36,24 @@ plot_ws(ws, initial_locations, final_locations, Paths)
 % simulate
 Agents = cell(1,N);
 for i = 1:N
-    Agents{i} = agent(i,Paths{i});
-    Agents{i}.Paths = Paths;
+    Agents{i} = agent(i,Paths, 1);
 end
 
-for i= 1:length(Paths)
+for i= 1:N
     Agents{i}.createBottlesSharedWith(Agents);
-    Agents{i}.findDrinkingSessions();
 end
+% find drinking sessions
+for i= 1:N
+    Agents{i}.findDrinkingSessions(cycle_method);
+end
+set_initial_conditions(Agents);
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
 positions = initial_locations;
-move_order = [1 1 2 3 4 5 6 7 8 9 9];
+move_order = [1 9 8 7 6 5 4 3 2 1 9 9];
 
 for i = move_order
-   Agents{i}.move();
+   Agents{i}.move_philosopher();
     for n = 1:N
         positions(n) = Agents{n}.path(Agents{n}.curr_pos_idx);
     end
@@ -61,17 +65,23 @@ for i = move_order
    end
 end
 
+runs_completed = false(length(Agents),1);
+
 for t = 1:50
 for i = 1:length(Agents)
-   Agents{i}.move();
+   Agents{i}.move_philosopher();
     for n = 1:N
         positions(n) = Agents{n}.path(Agents{n}.curr_pos_idx);
+        runs_completed(n) = positions(n) == final_locations(n);
     end
     plot_ws(ws, positions, final_locations, []);
     drawnow;%pause(0.01);
-
    if length(unique(positions)) < N
         disp(strcat('Collision between Agents ', num2str(colliding_agents),'!'));
    end
+end
+if all(runs_completed)
+    disp(['Done by step ', num2str(t)]);
+    break
 end
 end

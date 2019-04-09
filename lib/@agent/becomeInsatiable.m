@@ -20,22 +20,32 @@ function becomeInsatiable(obj, bottles)
        end
    end
    % drop bottles no longer needed
-   if obj.curr_pos_idx > 1
-       bottles_not_needed = setdiff(obj.sessions{obj.curr_pos_idx - 1}, obj.sessions{obj.curr_pos_idx});
-       for i = 1:length(bottles_not_needed)
-           b = obj.bottles(bottles_not_needed(i));
-           %%%%%%%%%%%% debugging %%%%%%%%%%
-           if b.id_cell == 557 && obj.id ==7
+    %%%%%%%%%%%% debugging %%%%%%%%%%
+           if obj.pos == 672 && obj.id == 33
                1;
            end
-           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+   if obj.curr_pos_idx > 1
+       %%%%% Comment out the following line???
+       bottles_not_needed = setdiff(obj.sessions{obj.curr_pos_idx - 1}, obj.sessions{obj.curr_pos_idx});
+       %%%%%%%%% NEW IDEA %%%%%%%%%%%%
+       old_states = setdiff(obj.path, obj.path(obj.curr_pos_idx:end));
+       for os = old_states
+            bottles_not_needed = [ bottles_not_needed, find(obj.bottle_cells == os)]; %#ok<AGROW>
+       end
+       bottles_not_needed = unique(bottles_not_needed);
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       for i = 1:length(bottles_not_needed)
+           b = obj.bottles(bottles_not_needed(i));
+          
            b.need = false;
            if b.hold && b.req
                b.hold = false;
                a2 = b.sharedWith;
                a2.receiveBottle(b);
            end
-   end
+       end
    end
    obj.tryDrinking();
 end

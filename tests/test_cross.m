@@ -2,6 +2,7 @@ clear;clc;close all;
 % Simple example showing agents can follow each other
 ttotal = tic;
 %% User Defined Parameters
+cycle_method = 'SR';
 % Workspace
 numRows = 15;
 numCols = 15;
@@ -42,14 +43,19 @@ plot_ws(ws, initial_locations, final_locations, Paths)
 % simulate
 Agents = cell(1,N);
 for i = 1:N
-    Agents{i} = agent(i,Paths{i});
-    Agents{i}.Paths = Paths;
+    Agents{i} = agent(i,Paths,1);
+%     Agents{i}.Paths = Paths;
 end
 
-for i= 1:length(Paths)
+% create shared resources
+for i= 1:N
     Agents{i}.createBottlesSharedWith(Agents);
-    Agents{i}.findDrinkingSessions();
 end
+% find drinking sessions
+for i= 1:N
+    Agents{i}.findDrinkingSessions(cycle_method);
+end
+set_initial_conditions(Agents)
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
 time = 1;
@@ -64,7 +70,7 @@ while sum(runs_completed) < N
         %n = random_order(m);
         n=m;
         if ~runs_completed(n)
-            Agents{n}.move();
+            Agents{n}.move_philosopher();
             time_elapsed(n) = time_elapsed(n) + 1;
             if Agents{n}.curr_pos_idx == length(Agents{n}.path)
                 runs_completed(n) = 1;

@@ -1,4 +1,19 @@
 function createBottlesSharedWith(obj, Agents)
+%% get rid of stutter
+Paths = obj.Paths;
+for n = 1:length(Paths)
+   p = 2;
+   while p <= length(Paths{n})
+       if Paths{n}(p) == Paths{n}(p-1)
+         Paths{n}(p) = [];
+       else
+         p = p + 1;
+       end
+   end
+end
+%%
+obj.Paths = Paths;
+obj.path = Paths{obj.id};
 % creates a bottle for each state sharedWith Agents
 obj.is_shared = false(length(obj.path),1);
 for a = 1:length(Agents)

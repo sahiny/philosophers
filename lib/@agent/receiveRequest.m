@@ -5,7 +5,10 @@ function receiveRequest(obj, id_cell, s_num, id_sender)
    obj.max_rec = max(obj.max_rec, s_num);  
    %%%% DEBUG %%%%%%%%%%
    a2 = b.sharedWith;
-   if obj.id == 2 && a2.id == 12
+   if obj.id == 26 && a2.id == 31
+       1;
+   end
+   if obj.id == 26 && a2.id == 31
        1;
    end
    %%%%%%%%%%%%%%%%
@@ -14,12 +17,12 @@ function receiveRequest(obj, id_cell, s_num, id_sender)
        a2 = b.sharedWith;
        a2.receiveBottle(b);
    elseif (strcmp(obj.drinkingState, 'thirsty')&&...
-    (s_num <  obj.s_num || (s_num == obj.s_num && id_sender < obj.id)))
+    (s_num <  obj.s_num || (s_num == obj.s_num && id_sender < obj.id)|| strcmp(a2.drinkingState, 'insatiable')))
        b.hold = false;
        a2 = b.sharedWith;
        a2.receiveBottle(b);
    elseif strcmp(obj.drinkingState, 'insatiable') && isempty(find(obj.sessions{obj.curr_pos_idx}==b.id,1))&&...
-    (s_num <  obj.s_num || (s_num == obj.s_num && id_sender < obj.id))
+    (s_num <  obj.s_num || (s_num == obj.s_num && id_sender < obj.id)) && ~strcmp(a2.drinkingState, 'thirsty')
        b.hold = false;
        a2 = b.sharedWith;
        a2.receiveBottle(b);

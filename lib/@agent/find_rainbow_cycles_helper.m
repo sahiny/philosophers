@@ -1,4 +1,8 @@
-function Cycles = find_rainbow_cycles_helper(obj, idx_next_state)
+function Cycles = find_rainbow_cycles_helper(obj, idx_next_state, root_color)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% Change it to get rid of node class %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % finds the next session of bottles that are required to move to next_state
 % searches for simple rainbow cycles that is rooted at next_state and
 % starts with the color of corresponding agent
@@ -13,19 +17,46 @@ function Cycles = find_rainbow_cycles_helper(obj, idx_next_state)
 % Outputs:
 %   Bootles          - bottle array that must claimed before moving onto next_state
 %
+Cycles = [];
+is_shared = find_shared_status(obj.Paths);
+if ~is_shared(obj.path(idx_next_state)) || idx_next_state == length(obj.path)
+    return
+%%%%% new idea
+elseif idx_next_state < length(obj.path)
+    if ~is_shared(obj.path(idx_next_state+1))
+        return
+    end
+%%%%% new idea
+end
 
 id_agent = obj.id;
 Paths = obj.Paths;
+N = length(Paths);
 id_cell_next_state = obj.path(idx_next_state);
-id_cell_nextnext_state = obj.path(mod(idx_next_state, length(obj.path)) + 1);
+id_cell_nextnext_state = obj.path(idx_next_state + 1);
 num_colors = length(Paths); % num_agents
 
 % n = node(id_cell, parent, parent_colors, ancestor_cells, num_colors)
 root = node(id_cell_next_state, [], [], [], num_colors);
 
-% keep a fifo open list for nodes to explore
-open_list = node(id_cell_nextnext_state, root, id_agent, id_cell_next_state, num_colors);
-Cycles = [];
+
+% % keep a fifo open list for nodes to explore
+% open_list = node(id_cell_nextnext_state, root, id_agent, id_cell_next_state, num_colors);
+
+
+%%%%%%%%%% NEW IDEA %%%%%%%%%%%%%%%
+open_list = [];
+for p = root_color
+    id_p = Paths{p} == id_cell_next_state;
+    id_p = [false id_p(1:end-1)];
+    id_cell_next_p = Paths{p}(id_p);
+    for i = 1:length(id_cell_next_p)
+        new_node = node(id_cell_next_p(i), root, p, id_cell_next_state, num_colors);
+        open_list = [open_list new_node];
+    end
+end
+%%%%%%%%%% NEW IDEA %%%%%%%%%%%%%%%
+
 
 while ~isempty(open_list)
     % fifo list
@@ -52,7 +83,10 @@ while ~isempty(open_list)
                     this_cycle = struct();
                     this_cycle.id_cells = child_c.ancestor_cells;
                     this_cycle.id_agents = child_c.parent_colors;
-                    Cycles = [Cycles ,this_cycle];
+                    % find if there's a bottle to be claimed here
+%                     if any(this_cycle.id_agents == obj.id)
+                        Cycles = [Cycles ,this_cycle];
+%                     end
                 else
                     1; % not a simple-cycle, stop exploring this branch
                 end
@@ -66,9 +100,23 @@ end
 
 % if a cycle is found, search for new cycles starting from the nextnext state
 if ~isempty(Cycles) && idx_next_state < length(Paths{obj.id})
-%     for c = 1:length(Cycles)
-        Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1);
+    Cycles2 = [];
+    is_valid = 0;
+    for c = 1:length(Cycles)
+        my_cycle = Cycles(c);
+        cycle_cells = my_cycle.id_cells;
+        if any(cycle_cells == obj.path(idx_next_state +1))
+            is_valid = 1;
+            break
+        end
+    end
+    if is_valid
+        Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1, 1:N);
+    end
         Cycles = [Cycles, Cycles2];
+%     else
+%         Cycles = [];
+%     end
 %     end
 else
     1;

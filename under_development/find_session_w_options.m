@@ -15,7 +15,7 @@ function Bottles = find_session_w_options(obj, idx_next_state, cycle_method)
 %
 
 if strcmp(cycle_method, 'R')
-    bottles_4_cycles = find_rainbow_cycles_newnew(obj,idx_next_state);
+    bottles_4_cycles = find_rainbow_cycles(obj,idx_next_state);
 elseif strcmp(cycle_method, 'SR')
     bottles_4_cycles = find_stuttered_rainbow_cycles(obj,idx_next_state);
 elseif strcmp(cycle_method, 'C')
