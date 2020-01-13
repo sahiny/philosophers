@@ -35,11 +35,15 @@ function becomeInsatiable(obj, bottles)
             bottles_not_needed = [ bottles_not_needed, find(obj.bottle_cells == os)]; %#ok<AGROW>
        end
        bottles_not_needed = unique(bottles_not_needed);
-       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
        for i = 1:length(bottles_not_needed)
            b = obj.bottles(bottles_not_needed(i));
-          
-           b.need = false;
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+       if obj.id == 2 && b.id == 9
+           1;
+       end
+       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%           
+       b.need = false;
            if b.hold && b.req
                b.hold = false;
                a2 = b.sharedWith;

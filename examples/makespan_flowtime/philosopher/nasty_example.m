@@ -4,18 +4,24 @@ ttotal = tic;
 %% User Defined Parameters
 cycle_method = 'R2';
 % Workspace size
-numRows = 7;
-numCols = 8;
+numRows = 10;
+numCols = 10;
 % individual paths
-Paths = {[3 10 17 24 31 32 33 26 19 12 7]}; %1
-Paths{end+1} = [9 10 17 24 31 32 33 26 19 12 14]; %2
-Paths{end+1} = [23 24 31 32 33 26 19 12 21]; %3
-Paths{end+1} = [30 31 32 33 26 19 12 28]; %4
-Paths{end+1} = [39 32 33 26 19 12 35]; %5
-Paths{end+1} = [40 33 26 19 12 42]; %6
-Paths{end+1} = [27 26 19 12 49]; %7
-Paths{end+1} = [20 19 18 17 16 15 22]; %8
-Paths{end+1} = [8 15 16 17 18 11]; %9
+Paths = {[5:10:99]}; %1
+% Paths{end+1} = 16:1:20; %2
+% Paths{end+1} = 25:1:30; %2
+% Paths{end+1} = 34:1:40; %2
+% Paths{end+1} = 43:1:50; %2
+% Paths{end+1} = 52:1:60; %2
+% Paths{end+1} = 71:1:80; %2
+% Paths{end+1} = 52:1:60; %
+% Paths{end+1} = 91:-10:1; %3
+% Paths{end+1} = 90:-1:81; %4
+
+Paths{end+1} = 41:1:50; %2
+Paths{end+1} = 98:-10:1; %2
+
+
 
 % Number of robots
 N = length(Paths);
@@ -31,7 +37,7 @@ end
 
 % visualize
 ws = create_workspace(numRows, numCols, obstacles);
-plot_ws(ws, initial_locations, final_locations, Paths)
+plot_ws(ws, initial_locations, final_locations, [])
 
 % simulate
 Agents = cell(1,N);

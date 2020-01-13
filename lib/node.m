@@ -4,8 +4,11 @@ classdef node < matlab.mixin.Copyable
       parent = [];
       ancestor_cells = [];
       children = [];
+      children_id_cell;
+      children_id_node;
       parent_colors = [];
       num_colors = 0;
+      id;
    end
    methods
        function obj = node(id_cell, parent, parent_colors, ancestor_cells, num_colors)

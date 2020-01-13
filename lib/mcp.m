@@ -8,7 +8,7 @@ prob_succ = varargin{2};
 % assign defaults
 plot_stuff = false;
 record_stuff = false;
-max_time_threshold = 1000;
+max_time_threshold = 5000;
 arg_ind = 3;
 while arg_ind <= nargin
     switch varargin{arg_ind}
@@ -119,7 +119,7 @@ for n = 1:N
     num_messages(n) = Agents{n}.msgReceived;
 end
 
-max_time = max(time_elapsed);
+max_time = max(time_elapsed)
 avg_time = time_elapsed/N;
 1;
 

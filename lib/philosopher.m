@@ -5,11 +5,11 @@ Paths = varargin{1};
 prob_succ = varargin{2};
 % make this a function
 % assign defaults 
-cycle_method = 'R';
+cycle_method = 'R2';
 pre_load = false;
 plot_stuff = false;
 record_stuff = false;
-max_time_threshold = 250;
+max_time_threshold = 5*1e3;
 arg_ind = 3;
 while arg_ind <= nargin
     switch varargin{arg_ind}
@@ -43,7 +43,10 @@ end
 
 % load pre_computed drinking sessions if flag is set
 if pre_load
-    1;
+    N = length( prob_succ);
+    for i = 1:N
+        Agents{i}.prob_succ = prob_succ(i);
+    end
     %load(['Koenig_rand', num2str(random_number), '_', cycle_method]);
 else
     % eval(['Koenig_random_', num2str(random_number)]);
@@ -63,9 +66,15 @@ else
     for i= 1:N
         Agents{i}.createBottlesSharedWith(Agents);
     end
+    
+    
     % find drinking sessions
-    for i= 1:N
-        Agents{i}.findDrinkingSessions(cycle_method);
+    if strcmp(cycle_method, 'R2')
+        findDrinkingSessionsR2(Agents, Paths);
+    else
+        for i= 1:N
+            Agents{i}.findDrinkingSessions(cycle_method);
+        end
     end
     set_initial_conditions(Agents);
 end
@@ -96,7 +105,7 @@ while sum(runs_completed) < N
         n = random_order(m);
         if ~runs_completed(n)
             %%%%%%%%% DEBUG %%%%%%%%%%%%
-            if n == 2 && Agents{2}.curr_pos_idx == 11
+            if n == 2 %&& Agents{2}.curr_pos_idx == 11
                 1;
             end
             %%%%%%%%% DEBUG %%%%%%%%%%%%
@@ -127,7 +136,9 @@ while sum(runs_completed) < N
         multiple = find(bincount > 1);
         colliding_agents = find(ismember(bin, multiple));
         disp(strcat('Collision between Agents ', num2str(colliding_agents'),'!'));
-        %save(['Crashing_seed_philosopher_A', num2str(colliding_agents'),'_t', num2str(max(time_elapsed))], 'varargin','this_seed');
+        save(['Crashing_seed_philosopher_A', num2str(colliding_agents'),'_t', num2str(max(time_elapsed))], 'varargin','this_seed');
+        time_elapsed = -time_elapsed;
+        break
         %pause
 %         assert(1==0);
     end

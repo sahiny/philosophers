@@ -67,8 +67,10 @@ while ~isempty(open_list)
         [~,idx_child] = find(Paths{c} == node2explore.id_cell);
         for i = idx_child 
             %%%%%%% Not a Cycle %%%%%%%%%
-            if idx_child == length(Paths{c})
+            if i == length(Paths{c})
                 continue
+            elseif c == obj.id && i < idx_next_state
+                return
             end
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             id_child_c = Paths{c}(mod(i, length(Paths{c})) + 1);
@@ -111,7 +113,8 @@ if ~isempty(Cycles) && idx_next_state < length(Paths{obj.id})
         end
     end
     if is_valid
-        Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1, 1:N);
+%         Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1, 1:N);
+        Cycles2 = obj.find_rainbow_cycles_helper(idx_next_state +1, obj.id);
     end
         Cycles = [Cycles, Cycles2];
 %     else

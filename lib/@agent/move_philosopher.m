@@ -3,6 +3,10 @@ if obj.curr_pos_idx == length(obj.path)
     return
 end
 
+if obj.id == 32
+    1;
+end
+
 obj.move_completed = false;
 % figure out what bottles are needed
 obj.curr_session = obj.sessions{obj.curr_pos_idx};

@@ -1,4 +1,4 @@
-function plot_ws(ws, current_locations, final_locations, paths)
+function plot_kiva(ws, current_locations, final_locations, paths)
 % visualization script
 % 
 % ws: workspace is a struct with the following fields
@@ -25,18 +25,17 @@ obstacles = ws.obstacles;
 figure(2);clf;hold on;
 for i = 1:numRows
     rectangle('Position',[-0.5 i-1.5 numCols 1]);
-%     text(numCols, numRows - i, num2str(i-1));
+    text(numCols, numRows - i, num2str(i-1));
 end
 for i = 1:numCols
     rectangle('Position',[i-1.5 -0.5 1 numRows]);
-%     text(i-1, numRows, num2str(i-1), 'Rotation', 90);
+    text(i-1, numRows, num2str(i-1), 'Rotation', 90);
 end
 
 if display_states
     for i = 1:numCols
         for j = 1:numRows
             text(i-1.4, numRows-j-0.4, num2str((i-1)*numRows + j), 'FontSize', 5, 'HorizontalAlignment', 'center' );
-            1;
         end
     end
 end
@@ -49,14 +48,14 @@ end
 
 % draw initial/final locations
     % convert to x-y
-    [iy, ix] = ind2sub([numRows, numCols], current_locations);
+    [iy, ix] = ind2sub([numCols,numRows], current_locations);
     iy = numRows - iy - 0.5;
     ix = ix - 1.5;
-    [fy, fx] = ind2sub([numRows, numCols], final_locations);
+    [fy, fx] = ind2sub([numCols, numRows], final_locations);
     fy = numRows - fy - 0.5;
     fx = fx - 1.5;
     
-    jet_colors = jet(numAgents+1);
+    jet_colors = jet(numAgents);
     mycolors = zeros(numAgents,3);
     for c = 1:numAgents
         if mod(c,2) == 1
@@ -66,14 +65,7 @@ end
         end
     end
     
-    for n = 1:numAgents
-        rectangle('Position',[ix(n)+.1 iy(n)+.1 .8 .8], 'FaceColor', mycolors(n,:), 'Curvature', [1 1]);
-        text(ix(n)+0.5, iy(n)+0.5, num2str(n), 'FontSize',8, 'Color', ones(1,3)-mycolors(n,:), 'HorizontalAlignment', 'center')
-    end
-    for n = 1:numAgents
-        rectangle('Position',[fx(n)+.1 fy(n)+.1 .8 .8], 'EdgeColor', mycolors(n,:), 'Curvature', [1 1], 'LineWidth',2, 'LineStyle', '-');
-    end
-    
+
     if isempty(paths)
         1;
     else
@@ -96,7 +88,13 @@ end
             plot(px, py, 'Color', mycolors(n,:), 'LineWidth',2);
         end
     end
-    
+    for n = 1:numAgents
+        rectangle('Position',[ix(n)+.1 iy(n)+.1 .8 .8], 'FaceColor', mycolors(n,:), 'Curvature', [1 1]);
+        text(ix(n)+0.5, iy(n)+0.5, num2str(n), 'FontSize',8, 'Color', ones(1,3)-mycolors(n,:), 'HorizontalAlignment', 'center')
+    end
+    for n = 1:numAgents
+        rectangle('Position',[fx(n)+.1 fy(n)+.1 .8 .8], 'EdgeColor', mycolors(n,:), 'Curvature', [1 1], 'LineWidth',2, 'LineStyle', '-');
+    end
 
 axis([-1 numCols+3 -1 numRows+3]);
 axis equal

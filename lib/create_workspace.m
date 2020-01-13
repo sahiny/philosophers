@@ -16,51 +16,51 @@ function ws = create_workspace(numRows, numCols, obstacles)
 ws = struct();
 
 % Create 5-connected grid ignoring obstacles
-adjn = eye(numRows*numCols);
-for i = 1:(numRows*numCols)
-    % right transitions
-    if i <= numRows*(numCols-1)
-        adjn(i,i + numRows) = 1;
-    end
-    
-    % left transitions
-    if i > numRows
-        adjn(i, i - numRows) = 1;
-    end
-    
-    % up transitions
-    if mod(i, numRows) ~= 1
-        adjn(i, i-1) = 1;
-    end
-    
-    % down transitions
-    if mod(i, numRows) ~= 0
-        adjn(i, i+1) = 1;
-    end
-end
+% adjn = eye(numRows*numCols);
+% for i = 1:(numRows*numCols)
+%     % right transitions
+%     if i <= numRows*(numCols-1)
+%         adjn(i,i + numRows) = 1;
+%     end
+%     
+%     % left transitions
+%     if i > numRows
+%         adjn(i, i - numRows) = 1;
+%     end
+%     
+%     % up transitions
+%     if mod(i, numRows) ~= 1
+%         adjn(i, i-1) = 1;
+%     end
+%     
+%     % down transitions
+%     if mod(i, numRows) ~= 0
+%         adjn(i, i+1) = 1;
+%     end
+% end
 
 
-% Delete rows and cols that correpond to obstacles
-adjr = adjn;
-r2n = zeros(numRows*numCols - length(obstacles),1);
-n2r = zeros(numRows*numCols, 1);
-j=numRows*numCols - length(obstacles);
-for i = 1:(numRows*numCols)
-    isObs = ~isempty(find(obstacles==numRows*numCols+1-i,1));
-    if isObs
-        adjr(numRows*numCols+1-i,:) = [];
-        adjr(:,numRows*numCols+1-i) = [];
-    else
-        r2n(j) = numRows*numCols+1-i;
-        n2r(numRows*numCols+1-i) = j;
-        j = j-1;
-    end
-end        
+% % Delete rows and cols that correpond to obstacles
+% adjr = adjn;
+% r2n = zeros(numRows*numCols - length(obstacles),1);
+% n2r = zeros(numRows*numCols, 1);
+% j=numRows*numCols - length(obstacles);
+% for i = 1:(numRows*numCols)
+%     isObs = ~isempty(find(obstacles==numRows*numCols+1-i,1));
+%     if isObs
+%         adjr(numRows*numCols+1-i,:) = [];
+%         adjr(:,numRows*numCols+1-i) = [];
+%     else
+%         r2n(j) = numRows*numCols+1-i;
+%         n2r(numRows*numCols+1-i) = j;
+%         j = j-1;
+%     end
+% end        
 
-ws.adjn = adjn;
-ws.adjr = adjr;
-ws.r2n = r2n;
-ws.n2r = n2r;
+% ws.adjn = adjn;
+% ws.adjr = adjr;
+% ws.r2n = r2n;
+% ws.n2r = n2r;
 ws.obstacles = obstacles;
 ws.numRows = numRows;
 ws.numCols = numCols;

@@ -2,14 +2,14 @@ clear;clc;close all;
 % Simple example showing agents can follow each other
 ttotal = tic;
 %% User Defined Parameters
-cycle_method = 'R';
+cycle_method = 'R2';
 % Workspace size
 numRows = 3;
 numCols = 8;
 % individual paths
 Paths = {[7 8 11 14 17 16]};
 Paths{end+1} = fliplr([5:3:20]);
-% Paths{end+1} = [9 8:3:17 18];
+Paths{end+1} = [9 8:3:17 18];
 % Number of robots
 N = length(Paths);
 % Obstacles
@@ -36,9 +36,15 @@ end
 for i= 1:length(Paths)
     Agents{i}.createBottlesSharedWith(Agents);
 end
-for i= 1:length(Paths)
-    Agents{i}.findDrinkingSessions(cycle_method);
+if strcmp(cycle_method, 'R2')
+    find_rainbow_cycles_all(Agents, Paths)
+else
+    for i= 1:N
+        Agents{i}.findDrinkingSessions(cycle_method);
+    end
 end
+set_initial_conditions(Agents);
+
 runs_completed = zeros(1,N);
 time_elapsed = zeros(1,N);
 positions = initial_locations;

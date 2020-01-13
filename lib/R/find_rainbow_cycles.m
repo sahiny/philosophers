@@ -16,7 +16,8 @@ function Bottles = find_rainbow_cycles(obj, idx_next_state)
 
 Bottles = [];
 N = length(obj.Paths);
-Cycles = find_rainbow_cycles_helper(obj, idx_next_state, 1:N);
+% Cycles = find_rainbow_cycles_helper(obj, idx_next_state, 1:N);
+Cycles = find_rainbow_cycles_helper(obj, idx_next_state, obj.id);
 
 for c = 1:length(Cycles)
     my_cycle = Cycles(c);
@@ -24,7 +25,9 @@ for c = 1:length(Cycles)
 %     if any(cycle_color == obj.id)
         for i = 1:length(my_cycle.id_cells)
             for j = 1:length(cycle_color)
+%             for j = 1:length(obj.Paths)
                 b1 = obj.getBottleId(my_cycle.id_cells(i), cycle_color(j));
+%                 b1 = obj.getBottleId(my_cycle.id_cells(i), j);
     %             b2 = obj.getBottleId(my_cycle.id_cells(i), cycle_color(j));
                 Bottles = [Bottles, b1];
             end

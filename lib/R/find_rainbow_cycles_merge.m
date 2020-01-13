@@ -10,7 +10,7 @@ elseif ~is_shared(obj.path(idx_next_state+1))
 end
 
 N = length(obj.Paths);
-Cycles = find_rainbow_cycles_merge_helper(obj, idx_next_state, obj.path(idx_next_state), obj.id);
+Cycles = find_rainbow_cycles_merge_helper(obj, idx_next_state, obj.path(idx_next_state), 1:N);
 
 for c = 1:length(Cycles)
     my_cycle = Cycles(c);

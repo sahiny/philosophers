@@ -65,6 +65,8 @@ while ~isempty(open_list)
             %%%%%%% Not a Cycle %%%%%%%%%
             if idx_child == length(Paths{c})
                 continue
+            elseif c == obj.id && i < idx_next_state
+                return
             end
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%
             id_child_c = Paths{c}(i+ 1);
