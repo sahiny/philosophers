@@ -1,0 +1,13 @@
+*.DS_Store
+*.m~
+*.gif
+*.mp4
+*.pdf
+under_development2/*
+old/*
+data/*
+*.mat
+Ma_raw_files/*
+results/*
+willAdd/*
+
